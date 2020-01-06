@@ -1,0 +1,10 @@
+{
+  "sqltools.connections": [
+    {
+      "database": "D6/data.db",
+      "dialect": "SQLite",
+      "name": "Day 6"
+    }
+  ],
+  "sqltools.useNodeRuntime": true
+}
