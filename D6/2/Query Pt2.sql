@@ -8,19 +8,18 @@ With recursive get_orbits(object, around, depth) as (
   where orbits.obj = get_orbits.around
   order by object
 ),
-find_intersect(object, depth) as (
-    select a.around, min(a.depth) from get_orbits a join (
+find_intersects(node, depth) as (
+  select a.around, depth from get_orbits a join (
       select around, count(*) from get_orbits group by around having count(*)>1
     ) b on a.around = b.around
-  where a.object = "YOU"
+  group by a.around
 ),
-get_intersect_depths(depth) as (
-  select get_orbits.depth from get_orbits, find_intersect where get_orbits.around = find_intersect.object 
-),
-reach_santa(somme) as (
-  select sum(depth) from get_intersect_depths
+find_path_nodes(object) as (
+  select around 
+  from get_orbits
+  where around not in (select node from find_intersects)
+  union
+  select node from (select node, min(depth) from find_intersects)
 )
-Select *
-from reach_santa
--- Group by nom
--- Select count(*) from count_orbits
+Select count(*)-1
+from find_path_nodes
