@@ -13,8 +13,9 @@ class Amplifier {
   }
 
   public function executeProgram($score){
-    $input->send($this->phase);
+    $this->input->append($this->phase);
+    $this->input->append($score);
 
-    return executeProgramMut($this->memory, $input);
+    return executeProgramMut($this->memory, $this->input);
   }
 }
