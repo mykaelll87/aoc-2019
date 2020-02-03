@@ -28,8 +28,7 @@ function executeProgram($memory, $input){
     return executeProgramMut($memory, $input);
 }
 
-function executeProgramMut(&$memory, $input){
-    $inputI = 0;
+function executeProgramMut(&$memory, &$input){
     $i = 0;
     while (true) {
         $val = (string) $memory[$i];
@@ -53,8 +52,10 @@ function executeProgramMut(&$memory, $input){
                 break;
             case 3:
                 $params = str_pad($params, 1, '0', STR_PAD_LEFT);
-                
-                $memory[$memory[$i + 1]] = $input[$inputI++];
+
+                $memory[$memory[$i + 1]] = $input->current();
+                $input->next();
+
                 $i += 2;
                 break;
             case 4:
